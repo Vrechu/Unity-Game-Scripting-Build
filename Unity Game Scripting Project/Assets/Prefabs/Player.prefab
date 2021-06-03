@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1324508924143567753}
   - component: {fileID: 5110738235947280133}
+  - component: {fileID: 1044308336436308481}
   m_Layer: 0
   m_Name: Camera Pivot Point
   m_TagString: Untagged
@@ -45,7 +46,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fpCamera: {fileID: 0}
-  verticalCameraSensitivity: 10
+  verticalCameraSensitivity: 5
+  verticalCameraLimit: 10
+--- !u!114 &1044308336436308481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117441059128639396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8535abfd00881f4dbbd77fb2c4c4d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 5271909742004124682}
 --- !u!1 &1559969618478638846
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +204,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9e7937e1eac48824fa3fae0a2633d4f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -241,7 +256,7 @@ GameObject:
   - component: {fileID: 2117148206494421045}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -339,7 +354,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &4641770943328649120
 MonoBehaviour:
@@ -354,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 10
-  horizontalCameraSensitivity: 10
+  horizontalCameraSensitivity: 5
 --- !u!114 &2117148206494421045
 MonoBehaviour:
   m_ObjectHideFlags: 0
