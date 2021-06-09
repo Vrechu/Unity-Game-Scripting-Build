@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractWithObject : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class InteractWithObject : MonoBehaviour
 
     public float MaxInteractionDistance = 6;
     private bool rightClick;
-
 
     private void Start()
     {
