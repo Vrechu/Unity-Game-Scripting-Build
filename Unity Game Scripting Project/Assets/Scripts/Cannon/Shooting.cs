@@ -10,29 +10,29 @@ public class Shooting : MonoBehaviour
 
     public float fireRate = 5;
     float resetTime;
-    bool canShoot = false;
-    bool spotted = false;
+    private bool canShoot = false;
+    private bool spotted = false;
     
     public static event Action<Transform> OnGunshot;
-    void Awake()
+    private void Awake()
     {
         SpotPlayer.OnPlayerSpotted += StartShooting;
         SpotPlayer.OnLostVisualOnPLayer += StopShooting;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         SpotPlayer.OnPlayerSpotted -= StartShooting;
         SpotPlayer.OnLostVisualOnPLayer -= StopShooting;
     }
 
 
-    void Start()
+    private void Start()
     {     
         resetTime = fireRate;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (spotted
           && canShoot)
@@ -42,7 +42,7 @@ public class Shooting : MonoBehaviour
         FireTiming();
     }
 
-    void Shoot()
+    private void Shoot()
     {
         Vector3 shootLocation =barrel.position + barrel.forward / barrel.localScale.y;
         Instantiate(bullet, shootLocation, barrel.rotation);
@@ -50,7 +50,7 @@ public class Shooting : MonoBehaviour
         OnGunshot?.Invoke(transform);
     }
 
-    void FireTiming()
+    private void FireTiming()
     {
         if (!canShoot)
         {            
@@ -63,7 +63,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    void StartShooting(Transform spotter)
+    private void StartShooting(Transform spotter)
     {
         if (spotted = transform)
         {
@@ -71,7 +71,7 @@ public class Shooting : MonoBehaviour
             spotted = true;
         }
     }
-    void StopShooting(Transform spotter)
+    private void StopShooting(Transform spotter)
     {
         if (spotted = transform)
         {

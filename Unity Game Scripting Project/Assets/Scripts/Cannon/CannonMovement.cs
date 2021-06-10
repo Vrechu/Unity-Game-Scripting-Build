@@ -73,13 +73,13 @@ public class CannonMovement : MonoBehaviour
 
     private void RotateBase()
     {
-        baseRotation = Quaternion.Lerp(transform.rotation, baseRotation, moveSpeed * Time.fixedDeltaTime);
+        baseRotation = Quaternion.Slerp(transform.rotation, baseRotation, moveSpeed * Time.fixedDeltaTime);
         transform.rotation = baseRotation;
     }
 
     private void RotateBarrel()
     {
-        barrelRotation = Quaternion.Lerp(cannonBarrel.localRotation, barrelRotation, moveSpeed * Time.fixedDeltaTime);
+        barrelRotation = Quaternion.Slerp(cannonBarrel.localRotation, barrelRotation, moveSpeed * Time.fixedDeltaTime);
         cannonBarrel.localRotation = barrelRotation;
     }
 

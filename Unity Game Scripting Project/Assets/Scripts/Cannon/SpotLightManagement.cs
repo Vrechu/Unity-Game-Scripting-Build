@@ -13,43 +13,43 @@ public class SpotLightManagement : MonoBehaviour
     public Light spotLight;
     public SpotPlayer spotPlayer;
 
-    void Awake()
+    private void Awake()
     {
         SpotPlayer.OnPlayerSpotted += SetToSpottedLight;
         SpotPlayer.OnLostVisualOnPLayer += SetToLostVisualLight;
         SpotPlayer.OnCannonReset += SetToUnspottedLight;            
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         SpotPlayer.OnPlayerSpotted -= SetToSpottedLight;
         SpotPlayer.OnLostVisualOnPLayer -= SetToLostVisualLight;
         SpotPlayer.OnCannonReset -= SetToUnspottedLight;
     }
 
-    void Start()
+    private void Start()
     { 
         spotLight.intensity = 20;
         spotLight.spotAngle = spotPlayer.searchLightAngle * 2;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
     }
 
-    void SetToSpottedLight(Transform spotter)
+    private void SetToSpottedLight(Transform spotter)
     {
         if (spotter == transform)
         spotLight.color = spottedColor;
     }
 
-    void SetToLostVisualLight(Transform spotter)
+    private void SetToLostVisualLight(Transform spotter)
     {
         if (spotter == transform)
             spotLight.color = searchingColor;
     }
 
-    void SetToUnspottedLight(Transform spotter)
+    private void SetToUnspottedLight(Transform spotter)
     {
         if (spotter == transform)
             spotLight.color = unspottedColor;

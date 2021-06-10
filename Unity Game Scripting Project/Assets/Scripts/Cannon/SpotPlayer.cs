@@ -9,40 +9,40 @@ public class SpotPlayer : MonoBehaviour
     public float searchLightAngle = 20;
     public float resetTime = 3;
 
-    float resetCounter = 0;
+    private float resetCounter = 0;
     public Transform cannonBarrel;
 
-    enum CannonState
+    private enum CannonState
     {
         SPOTTED, LOSTVISUAL, UNSPOTTED
     }
-    CannonState cannonState = CannonState.UNSPOTTED;
+    private CannonState cannonState = CannonState.UNSPOTTED;
 
-    Transform target;
-    Transform player;
-    Vector3 directionToPlayer;
-    Vector3 lookVector;
+    private Transform target;
+    private Transform player;
+    private Vector3 directionToPlayer;
+    private Vector3 lookVector;
 
 
     public static event Action<Transform> OnPlayerSpotted;
     public static event Action<Transform> OnLostVisualOnPLayer;
     public static event Action<Transform> OnCannonReset;
 
-    void Awake()
+    private void Awake()
     {
         OnPlayerSpotted += SpottedByMe;
         OnLostVisualOnPLayer += VisualLostByMe;
         OnCannonReset += ResetMe;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         OnPlayerSpotted -= SpottedByMe;
         OnLostVisualOnPLayer -= VisualLostByMe;
         OnCannonReset -= ResetMe;
     }
 
-    void Start()
+    private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (player != null)
@@ -50,7 +50,7 @@ public class SpotPlayer : MonoBehaviour
             target = player;
         }
     }
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         lookVector = cannonBarrel.forward;
         PlayerSpot();
@@ -58,21 +58,21 @@ public class SpotPlayer : MonoBehaviour
         CountDownToReset();
     }
 
-    bool PlayerIsInTheOpen(RaycastHit hitInfo)
+    private bool PlayerIsInTheOpen(RaycastHit hitInfo)
     {
-        if (hitInfo.transform.tag == null
-            || hitInfo.transform.tag != "Player")
+        if (hitInfo.transform.tag is null
+            || !(hitInfo.transform.tag is "Player"))
         {
             return false;
         }
-        else if (hitInfo.transform.tag == "Player")
+        else if (hitInfo.transform.tag is "Player")
         {
             return true;
         }
         else return false;
     }
 
-    bool CanSeePlayer()
+    private bool CanSeePlayer()
     {
         RaycastHit playerInfo = ObjectHitInfo(target);
         directionToPlayer = target.position - transform.position;
@@ -85,7 +85,7 @@ public class SpotPlayer : MonoBehaviour
         else return false;
     }
 
-    RaycastHit ObjectHitInfo(Transform racastObject)
+    private RaycastHit ObjectHitInfo(Transform racastObject)
     {
         Vector3 directionToTarget = racastObject.position - transform.position;
         RaycastHit info;
@@ -93,7 +93,7 @@ public class SpotPlayer : MonoBehaviour
         return info;
     }
 
-    void PlayerSpot()
+    private void PlayerSpot()
     {
         if ((cannonState == CannonState.UNSPOTTED
             || cannonState == CannonState.LOSTVISUAL)
@@ -103,7 +103,7 @@ public class SpotPlayer : MonoBehaviour
         }
     }
 
-    void SpottedByMe(Transform spotter)
+    private void SpottedByMe(Transform spotter)
     {
         if (spotter == transform)
         {
@@ -112,7 +112,7 @@ public class SpotPlayer : MonoBehaviour
         }
     }
 
-    void LostVisual()
+    private void LostVisual()
     {
         if (cannonState == CannonState.SPOTTED 
             && !CanSeePlayer())
@@ -121,7 +121,7 @@ public class SpotPlayer : MonoBehaviour
         }
     }
 
-    void VisualLostByMe(Transform spotter)
+    private void VisualLostByMe(Transform spotter)
     {
         if (spotter == transform)
         {
@@ -129,7 +129,7 @@ public class SpotPlayer : MonoBehaviour
         }
     }
 
-    void CountDownToReset()
+    private void CountDownToReset()
     {
         if (cannonState == CannonState.LOSTVISUAL)
         {
@@ -141,7 +141,7 @@ public class SpotPlayer : MonoBehaviour
         }
     }
 
-    void ResetMe(Transform spotter)
+    private void ResetMe(Transform spotter)
     {
         if (spotter == transform)
         {

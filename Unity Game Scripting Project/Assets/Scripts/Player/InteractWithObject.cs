@@ -29,7 +29,7 @@ public class InteractWithObject : MonoBehaviour
         interactionUI.gameObject.SetActive(false);
         RaycastHit info;
         Physics.Raycast(playerCamera.position, playerCamera.forward, out info, MaxInteractionDistance);
-        if (info.collider != null && info.collider.tag == "Interactable")
+        if (info.collider != null && info.collider.tag is "Interactable")
         {
             interactionUI.gameObject.SetActive(true);
             if (imputE)
