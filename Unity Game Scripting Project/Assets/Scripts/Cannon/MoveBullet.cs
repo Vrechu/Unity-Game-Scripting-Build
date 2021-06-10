@@ -8,15 +8,9 @@ public class MoveBullet : MonoBehaviour
     public float bulletSpeed = 20;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity = transform.forward * bulletSpeed;
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        
     }
 }

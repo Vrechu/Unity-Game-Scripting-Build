@@ -16,42 +16,45 @@ public class CannonMovement : MonoBehaviour
 
     public Transform cannonBarrel;
 
-    Vector3 directionVector;
-    Vector3 lookVector;
+    private Vector3 directionVector;
+    private Vector3 lookVector;
 
-    Quaternion completeAngle;
-    Quaternion baseRotation;
-    Quaternion barrelRotation;
+    private Quaternion completeAngle;
+    private Quaternion baseRotation;
+    private Quaternion barrelRotation;
 
-    Transform player;
-    Vector3 currentTarget;
+    private Transform player;
+    private Vector3 currentTarget;
 
-    enum CannonState
+    private enum CannonState
     {
         SPOTTED, LOSTVISUAL, UNSPOTTED
     }
     CannonState cannonState = CannonState.UNSPOTTED;
 
-    void Awake()
+    private void Awake()
     {
         SpotPlayer.OnPlayerSpotted += SetTargetToPlayer;
         SpotPlayer.OnCannonReset += ResetCannon;
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         SpotPlayer.OnPlayerSpotted -= SetTargetToPlayer;
         SpotPlayer.OnCannonReset -= ResetCannon;
     }
 
 
-    void Start()
+    private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         currentTarget = lookLocation1;
+
+        lookLocation1 += transform.position;
+        lookLocation2 += transform.position;
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         SplitQuaternion();
         FollowTarget();
@@ -60,7 +63,7 @@ public class CannonMovement : MonoBehaviour
         lookVector = cannonBarrel.forward;
     }
 
-    void SplitQuaternion()
+    private void SplitQuaternion()
     {
         directionVector = currentTarget - transform.position;
         completeAngle = Quaternion.LookRotation(directionVector);
@@ -68,19 +71,19 @@ public class CannonMovement : MonoBehaviour
         barrelRotation = Quaternion.Euler(completeAngle.eulerAngles.x, 0, cannonBarrel.localRotation.eulerAngles.z);
     }
 
-    void RotateBase()
+    private void RotateBase()
     {
         baseRotation = Quaternion.Lerp(transform.rotation, baseRotation, moveSpeed * Time.fixedDeltaTime);
         transform.rotation = baseRotation;
     }
 
-    void RotateBarrel()
+    private void RotateBarrel()
     {
         barrelRotation = Quaternion.Lerp(cannonBarrel.localRotation, barrelRotation, moveSpeed * Time.fixedDeltaTime);
         cannonBarrel.localRotation = barrelRotation;
     }
 
-    void FollowTarget()
+    private void FollowTarget()
     {
         if (cannonState == CannonState.SPOTTED
             && player != null)
@@ -93,7 +96,7 @@ public class CannonMovement : MonoBehaviour
         }
     }
 
-    void SetTargetToPlayer(Transform spotter)
+    private void SetTargetToPlayer(Transform spotter)
     {
         if (spotter == transform)
         {
@@ -102,7 +105,7 @@ public class CannonMovement : MonoBehaviour
         }
     }
 
-    void ResetCannon(Transform spotter)
+    private void ResetCannon(Transform spotter)
     {
         if (spotter == transform)
         {
@@ -111,7 +114,7 @@ public class CannonMovement : MonoBehaviour
             moveSpeed = sentrySpeed;
         }
     }
-    void MoveBetweenPoints()
+    private void MoveBetweenPoints()
     {
         float currentTargetAngle = Vector3.Angle(lookVector, directionVector);
         if (currentTargetAngle <= snapAngle)
@@ -120,7 +123,7 @@ public class CannonMovement : MonoBehaviour
         }        
     }
 
-    void SwitchTargets()
+    private void SwitchTargets()
     {
         if (currentTarget == lookLocation1)
             currentTarget = lookLocation2;

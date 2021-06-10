@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Door
   - Pickup
+  - Cannon
+  - Interactable
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,8 @@ public class InteractWithObject : MonoBehaviour
     public Transform playerCamera;
 
     public float MaxInteractionDistance = 6;
-    private bool rightClick;
+    private bool imputE;
+    public Text interactionUI;
 
     private void Start()
     {
@@ -18,19 +19,20 @@ public class InteractWithObject : MonoBehaviour
 
     private void Update()
     {
-        rightClick = Input.GetKeyDown(KeyCode.E);
+        imputE = Input.GetKeyDown(KeyCode.E);
 
         Interact();
     }
 
     private void Interact()
     {
-        if (rightClick)
+        interactionUI.gameObject.SetActive(false);
+        RaycastHit info;
+        Physics.Raycast(playerCamera.position, playerCamera.forward, out info, MaxInteractionDistance);
+        if (info.collider != null && info.collider.tag == "Interactable")
         {
-            RaycastHit info;
-            Physics.Raycast(playerCamera.position, playerCamera.forward, out info, MaxInteractionDistance);
-
-            if (info.collider != null)
+            interactionUI.gameObject.SetActive(true);
+            if (imputE)
             {
                 InteractionEvents.ObjectInteract(info.collider);
             }

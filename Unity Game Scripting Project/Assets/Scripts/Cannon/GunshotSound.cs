@@ -6,25 +6,16 @@ public class GunshotSound : MonoBehaviour
 {
     public AudioSource audioSource;
 
-    void Awake()
+    private void Awake()
     {
         Shooting.OnGunshot += PlayGonshotSound;
     }
-    void OnDestroy()
+    private void OnDestroy()
     {
         Shooting.OnGunshot -= PlayGonshotSound;
-    }
-
-    void Start()
-    {
-         
-    }
-
-    void Update()
-    {
-        
-    }
-    void PlayGonshotSound(Transform objectTranform)
+    }  
+    
+    private void PlayGonshotSound(Transform objectTranform)
     {
         audioSource.Play();
     }
