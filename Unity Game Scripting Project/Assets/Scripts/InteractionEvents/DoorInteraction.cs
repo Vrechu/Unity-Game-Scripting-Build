@@ -6,7 +6,7 @@ using UnityEngine;
 public class DoorInteraction : MonoBehaviour
 {
     public static event Action<string> OnDoorInteract;
-    public string nextSceneName;
+    [SerializeField] private string nextSceneName;
     private Collider objectCollider;
 
     private void Awake()
@@ -19,12 +19,15 @@ public class DoorInteraction : MonoBehaviour
         InteractionEvents.OnObjectInteract -= UseDoor;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         objectCollider = gameObject.GetComponent<Collider>();
     }
 
+    /// <summary>
+    /// if the interacted object is this object, snd out the on door interact event.
+    /// </summary>
+    /// <param name="interactionCollider">the interacted object collider</param>
     private void UseDoor(Collider interactionCollider)
     {
         if (interactionCollider == objectCollider)

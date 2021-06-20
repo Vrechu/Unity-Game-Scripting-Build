@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PickupInteract : MonoBehaviour
 {
-    public float scoreWorth = 3;
+    [SerializeField] private float scoreWorth = 3;
 
     public static event Action<float> OnPointsPickup;
     private Collider objectCollider;
@@ -24,6 +24,10 @@ public class PickupInteract : MonoBehaviour
         objectCollider = gameObject.GetComponent<Collider>();
     }
 
+    /// <summary>
+    /// if the interacted object is this object, send out on points pickup event and destroy this.
+    /// </summary>
+    /// <param name="interactionCollider">the interacted object collider</param>
     private void PickupItem(Collider interactionCollider)
     {
         if (interactionCollider == objectCollider)

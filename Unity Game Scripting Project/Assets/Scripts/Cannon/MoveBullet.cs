@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class MoveBullet : MonoBehaviour
 {
-    Rigidbody rb;
-    public float bulletSpeed = 20;
+    private Rigidbody _rb;
+    [SerializeField] private float _bulletSpeed = 20;
 
-    // Start is called before the first frame update
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * bulletSpeed;
+        _rb = GetComponent<Rigidbody>();
+        _rb.velocity = transform.forward * _bulletSpeed;
     }
 }

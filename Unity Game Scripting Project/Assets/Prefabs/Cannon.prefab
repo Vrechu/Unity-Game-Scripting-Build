@@ -284,13 +284,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac92eafd0f93ea47b4aafe031b67a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookLocation1: {x: 0, y: 0, z: 0}
-  lookLocation2: {x: 0, y: 0, z: 0}
-  moveSpeed: 1
-  sentrySpeed: 1
-  trackingSpeed: 3
-  snapAngle: 5
-  cannonBarrel: {fileID: 8420682877685773872}
+  _lookLocation1: {x: 0, y: 0, z: 0}
+  _lookLocation2: {x: 0, y: 0, z: 0}
+  _moveSpeed: 1
+  _sentrySpeed: 1
+  _trackingSpeed: 3
+  _snapAngle: 5
+  _cannonBarrel: {fileID: 8420682877685773872}
 --- !u!114 &5145991777746881903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,9 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bc6b6ee80cd2743831e7712ddd8ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  searchLightAngle: 20
-  resetTime: 3
-  cannonBarrel: {fileID: 8420682877685773872}
+  _searchLightAngle: 20
+  _resetTime: 3
+  _cannonBarrel: {fileID: 8420682877685773872}
 --- !u!114 &7042082326401452647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,9 +336,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed5d792bf27ee5747a0c0534142546fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 19608908750736997, guid: bbabf6da37b41d742a6373fb0e7fe9f9, type: 3}
-  barrel: {fileID: 8420682877685773872}
-  fireRate: 5
+  _bullet: {fileID: 19608908750736997, guid: bbabf6da37b41d742a6373fb0e7fe9f9, type: 3}
+  _barrel: {fileID: 8420682877685773872}
+  _fireRate: 5
+  _resetTime: 0
 --- !u!114 &5909034571520736988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f161d8ccbccb054f87e492ecf7cca3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 5689050555547363900}
+  _audioSource: {fileID: 5689050555547363900}
 --- !u!1 &8420682876376985861
 GameObject:
   m_ObjectHideFlags: 0

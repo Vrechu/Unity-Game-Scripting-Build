@@ -5,13 +5,13 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class SpotLightManagement : MonoBehaviour
 {
-    public Color unspottedColor = Color.white;
-    public Color spottedColor = Color.red;
-    public Color searchingColor = Color.yellow;
-    public float intensity = 10;
+    [SerializeField] private Color unspottedColor = Color.white;
+    [SerializeField] private Color spottedColor = Color.red;
+    [SerializeField] private Color searchingColor = Color.yellow;
+    [SerializeField] private float intensity = 10;
 
-    public Light spotLight;
-    public SpotPlayer spotPlayer;
+    [SerializeField] private Light spotLight;
+    [SerializeField] private SpotPlayer spotPlayer;
 
     private void Awake()
     {
@@ -30,11 +30,7 @@ public class SpotLightManagement : MonoBehaviour
     private void Start()
     { 
         spotLight.intensity = 20;
-        spotLight.spotAngle = spotPlayer.searchLightAngle * 2;
-    }
-
-    private void FixedUpdate()
-    {
+        spotLight.spotAngle = spotPlayer.GetSearchLightAngle() * 2;
     }
 
     private void SetToSpottedLight(Transform spotter)

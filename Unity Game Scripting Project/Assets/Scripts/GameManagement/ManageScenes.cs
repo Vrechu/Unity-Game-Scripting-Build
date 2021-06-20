@@ -16,18 +16,10 @@ public class ManageScenes : MonoBehaviour
         DoorInteraction.OnDoorInteract -= LoadScene;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// loads the specified scene
+    /// </summary>
+    /// <param name="sceneName">scene to be loaded</param>
     private void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

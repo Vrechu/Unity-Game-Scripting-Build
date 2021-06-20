@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
-    public float StartingScore = 0;
-    public float CurrentScore;
+    [SerializeField] private float _startingScore = 0;
+    [SerializeField] private float _currentScore;
+
     private void Awake()
     {
         PickupInteract.OnPointsPickup += AddScore;
@@ -16,20 +17,13 @@ public class PickupManager : MonoBehaviour
         PickupInteract.OnPointsPickup -= AddScore;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        CurrentScore = StartingScore;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _currentScore = _startingScore;
     }
 
     private void AddScore(float scoreToAdd)
     {
-        CurrentScore += scoreToAdd;
+        _currentScore += scoreToAdd;
     }
 }

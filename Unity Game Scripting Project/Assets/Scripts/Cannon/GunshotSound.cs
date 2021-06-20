@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunshotSound : MonoBehaviour
 {
-    public AudioSource audioSource;
+    [SerializeField] private AudioSource _audioSource;
 
     private void Awake()
     {
@@ -17,6 +17,6 @@ public class GunshotSound : MonoBehaviour
     
     private void PlayGonshotSound(Transform objectTranform)
     {
-        audioSource.Play();
+        _audioSource.Play();
     }
 }

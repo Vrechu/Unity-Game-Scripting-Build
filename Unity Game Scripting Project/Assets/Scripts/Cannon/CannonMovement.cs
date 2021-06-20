@@ -6,31 +6,31 @@ using UnityEngine;
 
 public class CannonMovement : MonoBehaviour
 {
-    public Vector3 lookLocation1;
-    public Vector3 lookLocation2;
+    [SerializeField] private Vector3 _lookLocation1;
+    [SerializeField] private Vector3 _lookLocation2;
 
-    public float moveSpeed = 1;
-    public float sentrySpeed = 1;
-    public float trackingSpeed = 3;
-    public float snapAngle = 5;
+    [SerializeField] private float _moveSpeed = 1;
+    [SerializeField] private float _sentrySpeed = 1;
+    [SerializeField] private float _trackingSpeed = 3;
+    [SerializeField] private float _snapAngle = 5;
 
-    public Transform cannonBarrel;
+    [SerializeField] private Transform _cannonBarrel;
 
-    private Vector3 directionVector;
-    private Vector3 lookVector;
+    private Vector3 _directionVector;
+    private Vector3 _lookVector;
 
-    private Quaternion completeAngle;
-    private Quaternion baseRotation;
-    private Quaternion barrelRotation;
+    private Quaternion _completeAngle;
+    private Quaternion _baseRotation;
+    private Quaternion _barrelRotation;
 
-    private Transform player;
-    private Vector3 currentTarget;
+    private Transform _player;
+    private Vector3 _currentTarget;
 
     private enum CannonState
     {
         SPOTTED, LOSTVISUAL, UNSPOTTED
     }
-    CannonState cannonState = CannonState.UNSPOTTED;
+    private CannonState _cannonState = CannonState.UNSPOTTED;
 
     private void Awake()
     {
@@ -47,11 +47,11 @@ public class CannonMovement : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        currentTarget = lookLocation1;
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _currentTarget = _lookLocation1;
 
-        lookLocation1 += transform.position;
-        lookLocation2 += transform.position;
+        _lookLocation1 += transform.position;
+        _lookLocation2 += transform.position;
     }
 
     private void FixedUpdate()
@@ -60,37 +60,37 @@ public class CannonMovement : MonoBehaviour
         FollowTarget();
         RotateBase();
         RotateBarrel();
-        lookVector = cannonBarrel.forward;
+        _lookVector = _cannonBarrel.forward;
     }
 
     private void SplitQuaternion()
     {
-        directionVector = currentTarget - transform.position;
-        completeAngle = Quaternion.LookRotation(directionVector);
-        baseRotation = Quaternion.Euler(0, completeAngle.eulerAngles.y, 0);
-        barrelRotation = Quaternion.Euler(completeAngle.eulerAngles.x, 0, cannonBarrel.localRotation.eulerAngles.z);
+        _directionVector = _currentTarget - transform.position;
+        _completeAngle = Quaternion.LookRotation(_directionVector);
+        _baseRotation = Quaternion.Euler(0, _completeAngle.eulerAngles.y, 0);
+        _barrelRotation = Quaternion.Euler(_completeAngle.eulerAngles.x, 0, _cannonBarrel.localRotation.eulerAngles.z);
     }
 
     private void RotateBase()
     {
-        baseRotation = Quaternion.Slerp(transform.rotation, baseRotation, moveSpeed * Time.fixedDeltaTime);
-        transform.rotation = baseRotation;
+        _baseRotation = Quaternion.Slerp(transform.rotation, _baseRotation, _moveSpeed * Time.fixedDeltaTime);
+        transform.rotation = _baseRotation;
     }
 
     private void RotateBarrel()
     {
-        barrelRotation = Quaternion.Slerp(cannonBarrel.localRotation, barrelRotation, moveSpeed * Time.fixedDeltaTime);
-        cannonBarrel.localRotation = barrelRotation;
+        _barrelRotation = Quaternion.Slerp(_cannonBarrel.localRotation, _barrelRotation, _moveSpeed * Time.fixedDeltaTime);
+        _cannonBarrel.localRotation = _barrelRotation;
     }
 
     private void FollowTarget()
     {
-        if (cannonState == CannonState.SPOTTED
-            && player != null)
+        if (_cannonState == CannonState.SPOTTED
+            && _player != null)
         {
-            currentTarget = player.position;
+            _currentTarget = _player.position;
         }
-        else if (cannonState == CannonState.UNSPOTTED)
+        else if (_cannonState == CannonState.UNSPOTTED)
         {
             MoveBetweenPoints();
         }
@@ -100,8 +100,8 @@ public class CannonMovement : MonoBehaviour
     {
         if (spotter == transform)
         {
-            cannonState = CannonState.SPOTTED;
-            moveSpeed = trackingSpeed;
+            _cannonState = CannonState.SPOTTED;
+            _moveSpeed = _trackingSpeed;
         }
     }
 
@@ -109,15 +109,15 @@ public class CannonMovement : MonoBehaviour
     {
         if (spotter == transform)
         {
-            cannonState = CannonState.UNSPOTTED;
-            currentTarget = lookLocation1;
-            moveSpeed = sentrySpeed;
+            _cannonState = CannonState.UNSPOTTED;
+            _currentTarget = _lookLocation1;
+            _moveSpeed = _sentrySpeed;
         }
     }
     private void MoveBetweenPoints()
     {
-        float currentTargetAngle = Vector3.Angle(lookVector, directionVector);
-        if (currentTargetAngle <= snapAngle)
+        float currentTargetAngle = Vector3.Angle(_lookVector, _directionVector);
+        if (currentTargetAngle <= _snapAngle)
         {
             SwitchTargets();
         }        
@@ -125,9 +125,9 @@ public class CannonMovement : MonoBehaviour
 
     private void SwitchTargets()
     {
-        if (currentTarget == lookLocation1)
-            currentTarget = lookLocation2;
-        else if (currentTarget == lookLocation2)
-            currentTarget = lookLocation1;
+        if (_currentTarget == _lookLocation1)
+            _currentTarget = _lookLocation2;
+        else if (_currentTarget == _lookLocation2)
+            _currentTarget = _lookLocation1;
     }
 }

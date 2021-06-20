@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JumpPlayer : MonoBehaviour
 {
-    public float jumpForce = 300;
+    [SerializeField] private float _jumpForce = 300;
 
     private Rigidbody _rb;
     private float _jump;
@@ -27,17 +27,25 @@ public class JumpPlayer : MonoBehaviour
         _jump = Input.GetAxis("Jump");
     }
 
+    /// <summary>
+    /// Adds an upward force to the player when the key is pressed and the player is grounded
+    /// </summary>
     private void Jump()
     {
         if (IsGrounded()
              && _jump == 1)
         {
-            _rb.AddForce(transform.up * jumpForce);
+            _rb.AddForce(transform.up * _jumpForce);
         }
     }
+
+    /// <summary>
+    /// checks if the player is grounded
+    /// </summary>
+    /// <returns>returns true if player is grounded</returns>
     private bool IsGrounded()
     {
-        if (Physics.Raycast(transform.position, transform.up * -1, 1.1f))
+        if (Physics.Raycast(transform.position, transform.up * -1, 1.01f))
         {
             return true;
         }

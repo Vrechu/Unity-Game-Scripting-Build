@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e27f8a1c92c50e4995b168bdb783a7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fpCamera: {fileID: 0}
-  verticalCameraSensitivity: 5
-  verticalCameraLimit: 10
+  _playerCamera: {fileID: 5271909742004124682}
+  _verticalCameraSensitivity: 10
+  _verticalCameraLimit: 10
 --- !u!114 &1044308336436308481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,9 +60,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8535abfd00881f4dbbd77fb2c4c4d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 5271909742004124682}
-  MaxInteractionDistance: 6
-  interactionUI: {fileID: 0}
+  _playerCamera: {fileID: 5271909742004124682}
+  _maxInteractionDistance: 6
+  _interactionUI: {fileID: 0}
 --- !u!1 &1559969618478638846
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,8 +370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3380d2b6fc9cc274e9604dc526d645ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseSpeed: 10
-  horizontalCameraSensitivity: 5
+  _baseSpeed: 10
+  _horizontalCameraSensitivity: 10
 --- !u!114 &2117148206494421045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,4 +384,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4617a344631966f4780d08bcade93261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 300
+  _jumpForce: 300

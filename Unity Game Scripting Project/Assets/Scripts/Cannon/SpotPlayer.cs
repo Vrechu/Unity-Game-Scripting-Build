@@ -6,11 +6,15 @@ using UnityEngine.UIElements;
 
 public class SpotPlayer : MonoBehaviour
 {
-    public float searchLightAngle = 20;
-    public float resetTime = 3;
+    [SerializeField] private float _searchLightAngle = 20;
+    public float GetSearchLightAngle()
+    {
+        return _searchLightAngle;
+    }
 
-    private float resetCounter = 0;
-    public Transform cannonBarrel;
+    [SerializeField] private  float _resetTime = 3;
+    private float _resetCounter = 0;
+    [SerializeField] private Transform _cannonBarrel;
 
     private enum CannonState
     {
@@ -52,7 +56,7 @@ public class SpotPlayer : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        lookVector = cannonBarrel.forward;
+        lookVector = _cannonBarrel.forward;
         PlayerSpot();
         LostVisual();
         CountDownToReset();
@@ -78,7 +82,7 @@ public class SpotPlayer : MonoBehaviour
         directionToPlayer = target.position - transform.position;
         float angleToPlayer = Vector3.Angle(lookVector, directionToPlayer);
         if (PlayerIsInTheOpen(playerInfo)
-             && angleToPlayer < searchLightAngle)
+             && angleToPlayer < _searchLightAngle)
         {
             return true;
         }        
@@ -107,7 +111,7 @@ public class SpotPlayer : MonoBehaviour
     {
         if (spotter == transform)
         {
-            resetCounter = resetTime;
+            _resetCounter = _resetTime;
             cannonState = CannonState.SPOTTED;
         }
     }
@@ -133,9 +137,9 @@ public class SpotPlayer : MonoBehaviour
     {
         if (cannonState == CannonState.LOSTVISUAL)
         {
-            resetCounter -= Time.deltaTime;
+            _resetCounter -= Time.deltaTime;
         }
-        if (resetCounter <= 0)
+        if (_resetCounter <= 0)
         {
             OnCannonReset?.Invoke(transform);
         }
@@ -145,7 +149,7 @@ public class SpotPlayer : MonoBehaviour
     {
         if (spotter == transform)
         {
-            resetCounter = resetTime;
+            _resetCounter = _resetTime;
             cannonState = CannonState.UNSPOTTED;
         }
     }

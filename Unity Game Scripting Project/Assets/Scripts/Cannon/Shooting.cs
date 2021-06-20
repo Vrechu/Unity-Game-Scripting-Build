@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public GameObject bullet;    
-    public Transform barrel;
+    [SerializeField] private GameObject _bullet;
+    [SerializeField] private Transform _barrel;
 
-    public float fireRate = 5;
-    float resetTime;
-    private bool canShoot = false;
-    private bool spotted = false;
+    [SerializeField] private float _fireRate = 5;
+    [SerializeField] private float _resetTime;
+    private bool _canShoot = false;
+    private bool _spotted = false;
     
     public static event Action<Transform> OnGunshot;
+
     private void Awake()
     {
         SpotPlayer.OnPlayerSpotted += StartShooting;
@@ -29,13 +30,13 @@ public class Shooting : MonoBehaviour
 
     private void Start()
     {     
-        resetTime = fireRate;
+        _resetTime = _fireRate;
     }
 
     private void FixedUpdate()
     {
-        if (spotted
-          && canShoot)
+        if (_spotted
+          && _canShoot)
         {
             Shoot();
         }
@@ -44,38 +45,38 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        Vector3 shootLocation =barrel.position + barrel.forward / barrel.localScale.y;
-        Instantiate(bullet, shootLocation, barrel.rotation);
-        canShoot = false;
+        Vector3 shootLocation =_barrel.position + _barrel.forward / _barrel.localScale.y;
+        Instantiate(_bullet, shootLocation, _barrel.rotation);
+        _canShoot = false;
         OnGunshot?.Invoke(transform);
     }
 
     private void FireTiming()
     {
-        if (!canShoot)
+        if (!_canShoot)
         {            
-            resetTime -= Time.fixedDeltaTime;
-            if (resetTime < 0)
+            _resetTime -= Time.fixedDeltaTime;
+            if (_resetTime < 0)
             {
-                resetTime = fireRate;
-                canShoot = true;                               
+                _resetTime = _fireRate;
+                _canShoot = true;                               
             }
         }
     }
 
     private void StartShooting(Transform spotter)
     {
-        if (spotted = transform)
+        if (_spotted = transform)
         {
-            resetTime = fireRate;
-            spotted = true;
+            _resetTime = _fireRate;
+            _spotted = true;
         }
     }
     private void StopShooting(Transform spotter)
     {
-        if (spotted = transform)
+        if (_spotted = transform)
         {
-            spotted = false;
+            _spotted = false;
         }
     }
 }

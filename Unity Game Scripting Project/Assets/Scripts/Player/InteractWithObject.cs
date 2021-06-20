@@ -6,33 +6,31 @@ using UnityEngine.UI;
 
 public class InteractWithObject : MonoBehaviour
 {
-    public Transform playerCamera;
+    [SerializeField] private Transform _playerCamera;
 
-    public float MaxInteractionDistance = 6;
-    private bool imputE;
-    public Text interactionUI;
+    [SerializeField] private float _maxInteractionDistance = 6;
+    private bool _imputE;
+    [SerializeField] private Text _interactionUI;
 
-    private void Start()
-    {
-
-    }
 
     private void Update()
     {
-        imputE = Input.GetKeyDown(KeyCode.E);
-
+        _imputE = Input.GetKeyDown(KeyCode.E);
         Interact();
     }
 
+    /// <summary>
+    /// sends out the on object interact event when pressing imput while facing an interactable object.
+    /// </summary>
     private void Interact()
     {
-        interactionUI.gameObject.SetActive(false);
+        _interactionUI.gameObject.SetActive(false);
         RaycastHit info;
-        Physics.Raycast(playerCamera.position, playerCamera.forward, out info, MaxInteractionDistance);
+        Physics.Raycast(_playerCamera.position, _playerCamera.forward, out info, _maxInteractionDistance);
         if (info.collider != null && info.collider.tag is "Interactable")
         {
-            interactionUI.gameObject.SetActive(true);
-            if (imputE)
+            _interactionUI.gameObject.SetActive(true);
+            if (_imputE)
             {
                 InteractionEvents.ObjectInteract(info.collider);
             }
