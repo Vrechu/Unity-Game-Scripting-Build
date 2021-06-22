@@ -6,52 +6,50 @@ using UnityEngine;
 
 public class CannonMovement : MonoBehaviour
 {
-    [SerializeField] private Vector3 _lookLocation1;
-    [SerializeField] private Vector3 _lookLocation2;
+    [SerializeField] private Transform _cannonBarrel;
+    [SerializeField] private List<Transform> _lookPositionTransforms = new List<Transform>();
+    private Queue<Vector3> _lookPositions = new Queue<Vector3>();
 
     [SerializeField] private float _moveSpeed = 1;
-    [SerializeField] private float _sentrySpeed = 1;
-    [SerializeField] private float _trackingSpeed = 3;
-    [SerializeField] private float _snapAngle = 5;
+    [SerializeField] private float _sentrySpeed = 1; //speed when moving between points
+    [SerializeField] private float _trackingSpeed = 3; //speed when tracking player
+    [SerializeField] private float _snapAngle = 5; 
 
-    [SerializeField] private Transform _cannonBarrel;
 
     private Vector3 _directionVector;
-    private Vector3 _lookVector;
 
-    private Quaternion _completeAngle;
     private Quaternion _baseRotation;
     private Quaternion _barrelRotation;
 
     private Transform _player;
     private Vector3 _currentTarget;
 
-    private enum CannonState
-    {
-        SPOTTED, LOSTVISUAL, UNSPOTTED
-    }
-    private CannonState _cannonState = CannonState.UNSPOTTED;
+    private SpotPlayer _spotPlayer;
 
     private void Awake()
     {
-        SpotPlayer.OnPlayerSpotted += SetTargetToPlayer;
-        SpotPlayer.OnCannonReset += ResetCannon;
+        _spotPlayer = GetComponent<SpotPlayer>();
+        _spotPlayer.OnPlayerSpotted += SetTargetToPlayer;
+        _spotPlayer.OnCannonReset += ResetCannon;
     }
 
     private void OnDestroy()
     {
-        SpotPlayer.OnPlayerSpotted -= SetTargetToPlayer;
-        SpotPlayer.OnCannonReset -= ResetCannon;
+        _spotPlayer.OnPlayerSpotted -= SetTargetToPlayer;
+        _spotPlayer.OnCannonReset -= ResetCannon;
     }
 
 
     private void Start()
     {
         _player = GameObject.FindGameObjectWithTag("Player").transform;
-        _currentTarget = _lookLocation1;
 
-        _lookLocation1 += transform.position;
-        _lookLocation2 += transform.position;
+        foreach (Transform lookPositionTransform in _lookPositionTransforms)
+        {
+            _lookPositions.Enqueue(lookPositionTransform.position); //add position transforms to queue
+        }
+        if (_lookPositions.Count == 0) _lookPositions.Enqueue(new Vector3(0, 0, 1) + transform.position);
+        _currentTarget = _lookPositions.Peek(); // if no transforms in queue, look forward
     }
 
     private void FixedUpdate()
@@ -60,15 +58,17 @@ public class CannonMovement : MonoBehaviour
         FollowTarget();
         RotateBase();
         RotateBarrel();
-        _lookVector = _cannonBarrel.forward;
     }
 
+    /// <summary>
+    /// sets the lookraotation of the cannon and splits this quaternion into barrel and base rotations.
+    /// </summary>
     private void SplitQuaternion()
     {
         _directionVector = _currentTarget - transform.position;
-        _completeAngle = Quaternion.LookRotation(_directionVector);
-        _baseRotation = Quaternion.Euler(0, _completeAngle.eulerAngles.y, 0);
-        _barrelRotation = Quaternion.Euler(_completeAngle.eulerAngles.x, 0, _cannonBarrel.localRotation.eulerAngles.z);
+        Quaternion completeAngle = Quaternion.LookRotation(_directionVector);
+        _baseRotation = Quaternion.Euler(0, completeAngle.eulerAngles.y, 0);
+        _barrelRotation = Quaternion.Euler(completeAngle.eulerAngles.x, 0, _cannonBarrel.localRotation.eulerAngles.z);
     }
 
     private void RotateBase()
@@ -83,51 +83,56 @@ public class CannonMovement : MonoBehaviour
         _cannonBarrel.localRotation = _barrelRotation;
     }
 
+    /// <summary>
+    /// if the player is spotted, follow the player.
+    /// esle, cyvle through the look positions.
+    /// </summary>
     private void FollowTarget()
     {
-        if (_cannonState == CannonState.SPOTTED
+        if (_spotPlayer.GetCannonState() == SpotPlayer.CannonState.SPOTTED
             && _player != null)
         {
             _currentTarget = _player.position;
         }
-        else if (_cannonState == CannonState.UNSPOTTED)
+        else if (_spotPlayer.GetCannonState() == SpotPlayer.CannonState.UNSPOTTED)
         {
             MoveBetweenPoints();
         }
     }
 
-    private void SetTargetToPlayer(Transform spotter)
+    private void SetTargetToPlayer()
     {
-        if (spotter == transform)
-        {
-            _cannonState = CannonState.SPOTTED;
-            _moveSpeed = _trackingSpeed;
-        }
+        _moveSpeed = _trackingSpeed;
     }
 
-    private void ResetCannon(Transform spotter)
+    /// <summary>
+    /// sets the target to the next queued lookposition
+    /// sets the movespeed to the sentryspeed
+    /// </summary>
+    private void ResetCannon()
     {
-        if (spotter == transform)
-        {
-            _cannonState = CannonState.UNSPOTTED;
-            _currentTarget = _lookLocation1;
-            _moveSpeed = _sentrySpeed;
-        }
+        _currentTarget = _lookPositions.Peek();
+        _moveSpeed = _sentrySpeed;
     }
+
+    /// <summary>
+    /// when the target angle is reached, track the next target in the queue
+    /// </summary>
     private void MoveBetweenPoints()
     {
-        float currentTargetAngle = Vector3.Angle(_lookVector, _directionVector);
+        float currentTargetAngle = Vector3.Angle(_cannonBarrel.forward, _directionVector);
         if (currentTargetAngle <= _snapAngle)
         {
             SwitchTargets();
-        }        
+        }
     }
 
+    /// <summary>
+    /// move the target to the end of the list and make the next point on the list the target
+    /// </summary>
     private void SwitchTargets()
     {
-        if (_currentTarget == _lookLocation1)
-            _currentTarget = _lookLocation2;
-        else if (_currentTarget == _lookLocation2)
-            _currentTarget = _lookLocation1;
+        _lookPositions.Enqueue(_lookPositions.Dequeue());
+        _currentTarget = _lookPositions.Peek();
     }
 }

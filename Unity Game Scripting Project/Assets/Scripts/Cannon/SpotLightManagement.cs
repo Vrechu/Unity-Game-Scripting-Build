@@ -10,44 +10,43 @@ public class SpotLightManagement : MonoBehaviour
     [SerializeField] private Color searchingColor = Color.yellow;
     [SerializeField] private float intensity = 10;
 
-    [SerializeField] private Light spotLight;
-    [SerializeField] private SpotPlayer spotPlayer;
+    private Light _spotLight;
+    private SpotPlayer _spotPlayer;
 
     private void Awake()
     {
-        SpotPlayer.OnPlayerSpotted += SetToSpottedLight;
-        SpotPlayer.OnLostVisualOnPLayer += SetToLostVisualLight;
-        SpotPlayer.OnCannonReset += SetToUnspottedLight;            
+        _spotLight = GetComponentInChildren<Light>();
+        _spotPlayer = GetComponent<SpotPlayer>();
+        _spotPlayer.OnPlayerSpotted += SetToSpottedLight;
+        _spotPlayer.OnLostVisualOnPLayer += SetToLostVisualLight;
+        _spotPlayer.OnCannonReset += SetToUnspottedLight;            
     }
 
     private void OnDestroy()
-    {
-        SpotPlayer.OnPlayerSpotted -= SetToSpottedLight;
-        SpotPlayer.OnLostVisualOnPLayer -= SetToLostVisualLight;
-        SpotPlayer.OnCannonReset -= SetToUnspottedLight;
+    {        
+        _spotPlayer.OnPlayerSpotted -= SetToSpottedLight;
+        _spotPlayer.OnLostVisualOnPLayer -= SetToLostVisualLight;
+        _spotPlayer.OnCannonReset -= SetToUnspottedLight;
     }
 
     private void Start()
-    { 
-        spotLight.intensity = 20;
-        spotLight.spotAngle = spotPlayer.GetSearchLightAngle() * 2;
+    {        
+        _spotLight.intensity = 20;
+        _spotLight.spotAngle = _spotPlayer.GetSearchLightAngle() * 2;
     }
 
-    private void SetToSpottedLight(Transform spotter)
+    private void SetToSpottedLight()
     {
-        if (spotter == transform)
-        spotLight.color = spottedColor;
+        _spotLight.color = spottedColor;
     }
 
-    private void SetToLostVisualLight(Transform spotter)
+    private void SetToLostVisualLight()
     {
-        if (spotter == transform)
-            spotLight.color = searchingColor;
+            _spotLight.color = searchingColor;
     }
 
-    private void SetToUnspottedLight(Transform spotter)
+    private void SetToUnspottedLight()
     {
-        if (spotter == transform)
-            spotLight.color = unspottedColor;
+            _spotLight.color = unspottedColor;
     }
 }

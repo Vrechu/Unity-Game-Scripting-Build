@@ -608,6 +608,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5141344258969264086, guid: beb8f97ebbd1079468e46a5854c03953, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141344258969264086, guid: beb8f97ebbd1079468e46a5854c03953, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5201137748586907136, guid: beb8f97ebbd1079468e46a5854c03953, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1700,6 +1708,22 @@ PrefabInstance:
     - target: {fileID: 1824825210077099954, guid: dac05caab129eef46a2f515678aa7007, type: 3}
       propertyPath: lookLocation2.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824825210077099954, guid: dac05caab129eef46a2f515678aa7007, type: 3}
+      propertyPath: _lookPositionTransforms.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824825210077099954, guid: dac05caab129eef46a2f515678aa7007, type: 3}
+      propertyPath: _lookPositionTransforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 2006120262}
+    - target: {fileID: 1824825210077099954, guid: dac05caab129eef46a2f515678aa7007, type: 3}
+      propertyPath: _lookPositionTransforms.Array.data[1]
+      value: 
+      objectReference: {fileID: 4118586}
+    - target: {fileID: 7611659648065915765, guid: dac05caab129eef46a2f515678aa7007, type: 3}
+      propertyPath: _resetTime
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8420682876150139018, guid: dac05caab129eef46a2f515678aa7007, type: 3}
       propertyPath: m_RootOrder

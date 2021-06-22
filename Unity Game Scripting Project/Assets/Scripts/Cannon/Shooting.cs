@@ -13,18 +13,21 @@ public class Shooting : MonoBehaviour
     private bool _canShoot = false;
     private bool _spotted = false;
     
-    public static event Action<Transform> OnGunshot;
+    public event Action<Transform> OnGunshot;
+
+    private SpotPlayer _spotPlayer;
 
     private void Awake()
     {
-        SpotPlayer.OnPlayerSpotted += StartShooting;
-        SpotPlayer.OnLostVisualOnPLayer += StopShooting;
+        _spotPlayer = GetComponent<SpotPlayer>();
+        _spotPlayer.OnPlayerSpotted += StartShooting;
+        _spotPlayer.OnLostVisualOnPLayer += StopShooting;
     }
 
     private void OnDestroy()
     {
-        SpotPlayer.OnPlayerSpotted -= StartShooting;
-        SpotPlayer.OnLostVisualOnPLayer -= StopShooting;
+        _spotPlayer.OnPlayerSpotted -= StartShooting;
+        _spotPlayer.OnLostVisualOnPLayer -= StopShooting;
     }
 
 
@@ -64,19 +67,13 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    private void StartShooting(Transform spotter)
+    private void StartShooting()
     {
-        if (_spotted = transform)
-        {
             _resetTime = _fireRate;
-            _spotted = true;
-        }
+            _spotted = true;        
     }
-    private void StopShooting(Transform spotter)
+    private void StopShooting()
     {
-        if (_spotted = transform)
-        {
-            _spotted = false;
-        }
+            _spotted = false;        
     }
 }
