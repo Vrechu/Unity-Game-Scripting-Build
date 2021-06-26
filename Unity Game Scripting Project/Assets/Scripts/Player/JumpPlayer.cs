@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class JumpPlayer : MonoBehaviour
 {
-    [SerializeField] private float _jumpForce = 300;
+    [SerializeField] private float _jumpForce = 10;
 
     private Rigidbody _rb;
     private float _jump;
 
-    // Start is called before the first frame update
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
+    {        
+        Jump();
+    }
+
+    private void Update()
     {
         SetKey();
-        Jump();
     }
 
     private void SetKey()
@@ -35,7 +37,7 @@ public class JumpPlayer : MonoBehaviour
         if (IsGrounded()
              && _jump == 1)
         {
-            _rb.AddForce(transform.up * _jumpForce);
+            _rb.AddForce(transform.up * _jumpForce,ForceMode.Impulse);
         }
     }
 

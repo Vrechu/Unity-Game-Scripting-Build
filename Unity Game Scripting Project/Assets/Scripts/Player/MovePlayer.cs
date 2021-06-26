@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    [SerializeField] private float _baseSpeed = 10;
+    [SerializeField] private float _acceleration = 1;
+    [SerializeField] private float _topSpeed = 10;
     [SerializeField] private float _horizontalCameraSensitivity = 10;
+    [SerializeField] private float _inertia = 0.05f;
     private float _movementSpeed;
 
     private float _forward;
@@ -16,8 +18,7 @@ public class MovePlayer : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _movementSpeed = _baseSpeed;
-        Cursor.lockState = CursorLockMode.Locked;
+        _movementSpeed = _acceleration;
     }
 
     private void FixedUpdate()
@@ -48,6 +49,10 @@ public class MovePlayer : MonoBehaviour
         Vector3 zVelocity = transform.forward * _forward;
         Vector3 xVelocity = transform.right * _sideways;
         Vector3 horizontalVelocity = (zVelocity + xVelocity).normalized * _movementSpeed;
-        _rb.velocity = new Vector3(horizontalVelocity.x, _rb.velocity.y, horizontalVelocity.z);
+        if (_rb.velocity.magnitude < _topSpeed)
+        {
+            _rb.AddForce(new Vector3(horizontalVelocity.x, 0, horizontalVelocity.z), ForceMode.VelocityChange);
+        }
+        _rb.AddForce(new Vector3(_rb.velocity.x, 0, _rb.velocity.z) * -_inertia, ForceMode.VelocityChange);
     }
 }
