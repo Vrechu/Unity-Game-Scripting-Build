@@ -284,13 +284,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac92eafd0f93ea47b4aafe031b67a11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lookLocation1: {x: 0, y: 0, z: 1}
-  _lookLocation2: {x: 1, y: 0, z: 0}
+  _cannonBarrel: {fileID: 8420682877685773872}
+  _lookPositionTransforms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _moveSpeed: 1
   _sentrySpeed: 1
   _trackingSpeed: 3
   _snapAngle: 5
-  _cannonBarrel: {fileID: 8420682877685773872}
 --- !u!114 &5145991777746881903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,9 +305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bc6b6ee80cd2743831e7712ddd8ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cannonBarrel: {fileID: 8420682877685773872}
   _searchLightAngle: 20
   _resetTime: 3
-  _cannonBarrel: {fileID: 8420682877685773872}
 --- !u!114 &7042082326401452647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,12 +320,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19373e63ca2f2e47bf90131d158e462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unspottedColor: {r: 1, g: 1, b: 1, a: 1}
-  spottedColor: {r: 1, g: 0, b: 0, a: 1}
-  searchingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  intensity: 10
-  spotLight: {fileID: 2174223565947709913}
-  spotPlayer: {fileID: 5145991777746881903}
+  _unspottedColor: {r: 1, g: 1, b: 1, a: 1}
+  _spottedColor: {r: 1, g: 0, b: 0, a: 1}
+  _searchingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _intensity: 10
 --- !u!114 &7611659648065915765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bullet: {fileID: 19608908750736997, guid: bbabf6da37b41d742a6373fb0e7fe9f9, type: 3}
   _barrel: {fileID: 8420682877685773872}
-  _fireRate: 5
-  _resetTime: 0
+  _fireRate: 2
+  _resetTime: 2
 --- !u!114 &5909034571520736988
 MonoBehaviour:
   m_ObjectHideFlags: 0

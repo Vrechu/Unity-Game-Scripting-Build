@@ -9,9 +9,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private Transform _barrel;
 
     [SerializeField] private float _fireRate = 5;
-    [SerializeField] private float _resetTime;
-    private bool _canShoot = false;
-    private bool _spotted = false;
+    [SerializeField] private float _counter;
     
     public event Action<Transform> OnGunshot;
 
@@ -20,60 +18,58 @@ public class Shooting : MonoBehaviour
     private void Awake()
     {
         _spotPlayer = GetComponent<SpotPlayer>();
-        _spotPlayer.OnPlayerSpotted += StartShooting;
-        _spotPlayer.OnLostVisualOnPLayer += StopShooting;
     }
-
-    private void OnDestroy()
-    {
-        _spotPlayer.OnPlayerSpotted -= StartShooting;
-        _spotPlayer.OnLostVisualOnPLayer -= StopShooting;
-    }
-
 
     private void Start()
     {     
-        _resetTime = _fireRate;
+        _counter = _fireRate;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (_spotted
-          && _canShoot)
+        switch (_spotPlayer.GetCannonState())
         {
-            Shoot();
+            case SpotPlayer.CannonState.SPOTTED:
+                {
+                    if (CanShoot()) Shoot();
+                    if (_counter > -1) _counter -= Time.deltaTime;
+                    break;
+                }
+            case SpotPlayer.CannonState.LOSTVISUAL:
+                {
+                    if (_counter > -1) _counter -= Time.deltaTime;
+                    break;
+                }
+            case SpotPlayer.CannonState.UNSPOTTED:
+                {
+                    _counter = _fireRate;
+                    break;
+                }
         }
-        FireTiming();
     }
 
+    /// <summary>
+    /// shoots a bullet in the direction of the barrel.
+    /// resets the shooting counter
+    /// </summary>
     private void Shoot()
     {
         Vector3 shootLocation =_barrel.position + _barrel.forward / _barrel.localScale.y;
         Instantiate(_bullet, shootLocation, _barrel.rotation);
-        _canShoot = false;
         OnGunshot?.Invoke(transform);
+        _counter = _fireRate;
     }
 
-    private void FireTiming()
+    /// <summary>
+    /// returns true if the counter is below 0;
+    /// </summary>
+    /// <returns></returns>
+    private bool CanShoot()
     {
-        if (!_canShoot)
+        if (_counter < 0)
         {            
-            _resetTime -= Time.fixedDeltaTime;
-            if (_resetTime < 0)
-            {
-                _resetTime = _fireRate;
-                _canShoot = true;                               
-            }
+            return true;
         }
-    }
-
-    private void StartShooting()
-    {
-            _resetTime = _fireRate;
-            _spotted = true;        
-    }
-    private void StopShooting()
-    {
-            _spotted = false;        
+        else return false;
     }
 }

@@ -10,6 +10,6 @@ public class MoveBullet : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.velocity = transform.forward * _bulletSpeed;
+        _rb.AddForce(transform.forward * _bulletSpeed, ForceMode.VelocityChange);
     }
 }

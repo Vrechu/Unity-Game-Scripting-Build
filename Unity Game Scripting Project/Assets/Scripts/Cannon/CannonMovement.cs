@@ -29,14 +29,6 @@ public class CannonMovement : MonoBehaviour
     private void Awake()
     {
         _spotPlayer = GetComponent<SpotPlayer>();
-        _spotPlayer.OnPlayerSpotted += SetTargetToPlayer;
-        _spotPlayer.OnCannonReset += ResetCannon;
-    }
-
-    private void OnDestroy()
-    {
-        _spotPlayer.OnPlayerSpotted -= SetTargetToPlayer;
-        _spotPlayer.OnCannonReset -= ResetCannon;
     }
 
 
@@ -53,11 +45,15 @@ public class CannonMovement : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {
-        SplitQuaternion();
-        FollowTarget();
+    {        
         RotateBase();
         RotateBarrel();
+    }
+
+    private void Update()
+    {
+        SplitQuaternion();
+        SwitchTarget();
     }
 
     /// <summary>
@@ -87,32 +83,24 @@ public class CannonMovement : MonoBehaviour
     /// if the player is spotted, follow the player.
     /// esle, cyvle through the look positions.
     /// </summary>
-    private void FollowTarget()
+    private void SwitchTarget()
     {
-        if (_spotPlayer.GetCannonState() == SpotPlayer.CannonState.SPOTTED
-            && _player != null)
+        switch (_spotPlayer.GetCannonState())
         {
-            _currentTarget = _player.position;
+            case SpotPlayer.CannonState.SPOTTED:
+                {
+                    _currentTarget = _player.position;
+                    _moveSpeed = _trackingSpeed;
+                    break;
+                }
+            case SpotPlayer.CannonState.UNSPOTTED:
+                {
+                    _currentTarget = _lookPositions.Peek();
+                    _moveSpeed = _sentrySpeed;
+                    MoveBetweenPoints();
+                    break;
+                }
         }
-        else if (_spotPlayer.GetCannonState() == SpotPlayer.CannonState.UNSPOTTED)
-        {
-            MoveBetweenPoints();
-        }
-    }
-
-    private void SetTargetToPlayer()
-    {
-        _moveSpeed = _trackingSpeed;
-    }
-
-    /// <summary>
-    /// sets the target to the next queued lookposition
-    /// sets the movespeed to the sentryspeed
-    /// </summary>
-    private void ResetCannon()
-    {
-        _currentTarget = _lookPositions.Peek();
-        _moveSpeed = _sentrySpeed;
     }
 
     /// <summary>
@@ -123,16 +111,8 @@ public class CannonMovement : MonoBehaviour
         float currentTargetAngle = Vector3.Angle(_cannonBarrel.forward, _directionVector);
         if (currentTargetAngle <= _snapAngle)
         {
-            SwitchTargets();
+            _lookPositions.Enqueue(_lookPositions.Dequeue());
+            _currentTarget = _lookPositions.Peek();
         }
-    }
-
-    /// <summary>
-    /// move the target to the end of the list and make the next point on the list the target
-    /// </summary>
-    private void SwitchTargets()
-    {
-        _lookPositions.Enqueue(_lookPositions.Dequeue());
-        _currentTarget = _lookPositions.Peek();
     }
 }

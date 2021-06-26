@@ -9,13 +9,18 @@ public class SpotPlayer : MonoBehaviour
     [SerializeField] private Transform _cannonBarrel;
 
     [SerializeField] private float _searchLightAngle = 20;
+
+    private Transform _target;
+    private Transform _player;
+    private Vector3 _directionToPlayer;
+
+    [SerializeField] private float _resetTime = 3;
+    private float _resetCounter = 0;
+
     public float GetSearchLightAngle()
     {
         return _searchLightAngle;
     }
-
-    [SerializeField] private float _resetTime = 3;
-    private float _resetCounter = 0;
 
     public enum CannonState
     {
@@ -32,14 +37,6 @@ public class SpotPlayer : MonoBehaviour
         _cannonState = cannonState;
     }
 
-    private Transform _target;
-    private Transform _player;
-    private Vector3 _directionToPlayer;
-
-
-    public event Action OnPlayerSpotted;
-    public event Action OnLostVisualOnPLayer;
-    public event Action OnCannonReset;
 
 
     private void Start()
@@ -59,33 +56,15 @@ public class SpotPlayer : MonoBehaviour
     }
 
     /// <summary>
-    /// switches the cannonstate to the determined state and sends out the related events
+    /// switches the cannonstate amd resets the time
     /// </summary>
     /// <param name="cannonState">state to set the cannonstate to</param>
     private void SwitchCannonState(CannonState cannonState)
     {
         _cannonState = cannonState;
-        switch (_cannonState)
-        {
-            case CannonState.UNSPOTTED:
-                {
-                    _resetCounter = _resetTime;
-                    OnCannonReset?.Invoke();
-                    break;
-                }
-            case CannonState.SPOTTED:
-                {
-                    _resetCounter = _resetTime;
-                    OnPlayerSpotted?.Invoke();
-                    break;
-                }
-            case CannonState.LOSTVISUAL:
-                {
-                    OnLostVisualOnPLayer?.Invoke();
-                    break;
-                }
-        }
+        _resetCounter = _resetTime;
     }
+
 
     /// <summary>
     /// 
