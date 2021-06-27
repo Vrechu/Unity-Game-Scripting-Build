@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class MovePlayer : MonoBehaviour
 {
-    [SerializeField] private float _acceleration = 1;
-    [SerializeField] private float _topSpeed = 10;
-    [SerializeField] private float _horizontalCameraSensitivity = 10;
+    [SerializeField] private float _baseAcceleration = 5;
+    [SerializeField] private float _baseTopSpeed = 10;
+    [SerializeField] private float _sprintAcceleration = 10;
+    [SerializeField] private float _sprintTopSpeed = 20;
+
     [SerializeField] private float _inertia = 0.05f;
-    private float _movementSpeed;
+    private float _acceleration;
+    private float _topSpeed;
+
+
+
+    private PickupManager _pickupManager;
+    private float _sprint;
+
+
+    [SerializeField] private float _horizontalCameraSensitivity = 10;
 
     private float _forward;
     private float _sideways;
@@ -17,8 +28,9 @@ public class MovePlayer : MonoBehaviour
 
     private void Start()
     {
+        _pickupManager = PickupManager.GetPickupManager();
         _rb = GetComponent<Rigidbody>();
-        _movementSpeed = _acceleration;
+        _acceleration = _baseAcceleration;
     }
 
     private void FixedUpdate()
@@ -29,6 +41,7 @@ public class MovePlayer : MonoBehaviour
     private void Update()
     {
         SetKeys();
+        Sprint();
         transform.Rotate(0, Input.GetAxis("Mouse X") * _horizontalCameraSensitivity, 0);        
     }
 
@@ -39,6 +52,8 @@ public class MovePlayer : MonoBehaviour
     {
         _forward = Input.GetAxis("Vertical");
         _sideways = Input.GetAxis("Horizontal");
+
+        _sprint = Input.GetAxis("Fire3");
     }
 
     /// <summary>
@@ -48,11 +63,29 @@ public class MovePlayer : MonoBehaviour
     {
         Vector3 zVelocity = transform.forward * _forward;
         Vector3 xVelocity = transform.right * _sideways;
-        Vector3 horizontalVelocity = (zVelocity + xVelocity).normalized * _movementSpeed;
+        Vector3 horizontalVelocity = (zVelocity + xVelocity).normalized * _acceleration;
         if (_rb.velocity.magnitude < _topSpeed)
         {
             _rb.AddForce(new Vector3(horizontalVelocity.x, 0, horizontalVelocity.z), ForceMode.VelocityChange);
         }
         _rb.AddForce(new Vector3(_rb.velocity.x, 0, _rb.velocity.z) * -_inertia, ForceMode.VelocityChange);
+    }
+
+    /// <summary>
+    /// Sets the acceleration, topspeed, and inertia depending on wether the player is sprinting
+    /// </summary>
+    private void Sprint()
+    {
+        if (_pickupManager.CanSprint() && _sprint == 1)
+        {
+            _acceleration = _sprintAcceleration;
+            _topSpeed = _sprintTopSpeed;
+        }
+        else
+        {
+            _acceleration = _baseAcceleration;
+            _topSpeed = _baseTopSpeed;
+        }
+
     }
 }
