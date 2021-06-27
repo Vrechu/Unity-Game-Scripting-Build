@@ -339,7 +339,7 @@ MonoBehaviour:
   _bullet: {fileID: 19608908750736997, guid: bbabf6da37b41d742a6373fb0e7fe9f9, type: 3}
   _barrel: {fileID: 8420682877685773872}
   _fireRate: 2
-  _resetTime: 2
+  _counter: 0
 --- !u!114 &5909034571520736988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f161d8ccbccb054f87e492ecf7cca3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioSource: {fileID: 5689050555547363900}
+  _shootingSound: {fileID: 8300000, guid: eba839de4f42402418d2923131feed70, type: 3}
+  _spottedSound: {fileID: 8300000, guid: 8953d3142a0b2a3488396cdefbfef6cf, type: 3}
+  _resetSound: {fileID: 0}
 --- !u!1 &8420682876376985861
 GameObject:
   m_ObjectHideFlags: 0

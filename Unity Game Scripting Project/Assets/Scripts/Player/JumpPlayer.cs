@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,23 @@ public class JumpPlayer : MonoBehaviour
 {
     [SerializeField] private float _jumpForce = 10;
 
+    public static JumpPlayer GetJumpPlayer()
+    {
+        return JumpPlayerSingleton;
+    }
+    static JumpPlayer JumpPlayerSingleton;
+
+    public event Action OnJump;
+
     private Rigidbody _rb;
     private float _jump;
+
+    //------------------------------- METHODS -------------------------
+
+    private void Awake()
+    {
+        if (JumpPlayerSingleton == null) JumpPlayerSingleton = this;
+    }
 
     private void Start()
     {
@@ -38,6 +54,7 @@ public class JumpPlayer : MonoBehaviour
              && _jump == 1)
         {
             _rb.AddForce(transform.up * _jumpForce,ForceMode.Impulse);
+            OnJump?.Invoke();
         }
     }
 
@@ -47,7 +64,7 @@ public class JumpPlayer : MonoBehaviour
     /// <returns>returns true if player is grounded</returns>
     private bool IsGrounded()
     {
-        if (Physics.Raycast(transform.position, transform.up * -1, 1.01f))
+        if (Physics.Raycast(transform.position, transform.up * -1, 1.001f))
         {
             return true;
         }
