@@ -19,12 +19,12 @@ public class PickupManager : MonoBehaviour
     private void Awake()
     {
         if (PickupManagerSingleton == null) PickupManagerSingleton = this;
-        PickupInteract.OnBootsPickup += PickupBoots;
+        PickupInteract.OnSprintPickup += PickupBoots;
     }
 
     private void OnDestroy()
     {
-        PickupInteract.OnBootsPickup -= PickupBoots;
+        PickupInteract.OnSprintPickup -= PickupBoots;
     }
 
     private void PickupBoots()

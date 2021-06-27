@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PickupInteract : MonoBehaviour
 {
-    public static event Action OnBootsPickup;
+    public static event Action OnSprintPickup;
     private Collider objectCollider;
 
     private void Awake()
@@ -30,7 +30,7 @@ public class PickupInteract : MonoBehaviour
     {
         if (interactionCollider == objectCollider)
         {
-        OnBootsPickup?.Invoke();
+        OnSprintPickup?.Invoke();
             Destroy(gameObject);
         }
     }    

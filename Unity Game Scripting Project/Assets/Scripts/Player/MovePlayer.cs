@@ -14,17 +14,17 @@ public class MovePlayer : MonoBehaviour
     private float _topSpeed;
 
 
-
-    private PickupManager _pickupManager;
-    private float _sprint;
-
-
     [SerializeField] private float _horizontalCameraSensitivity = 10;
 
     private float _forward;
     private float _sideways;
 
+    private float _sprint;
+
     private Rigidbody _rb;
+    private PickupManager _pickupManager;
+
+    //--------------------------- METHODS ------------------------------
 
     private void Start()
     {
