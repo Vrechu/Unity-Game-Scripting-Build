@@ -72,6 +72,6 @@ public class ManageScenes : MonoBehaviour
     {
         CheckSceneType();
         OnSceneLoad?.Invoke();
-        Debug.Log("scene loaded: " + GetSceneType());
+        Debug.Log("Scene loaded: " + scene.name + " , Type: " + GetSceneType());
     }
 }

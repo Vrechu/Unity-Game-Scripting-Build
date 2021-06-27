@@ -1154,6 +1154,26 @@ PrefabInstance:
       propertyPath: _baseSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4641770943328649120, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
+      propertyPath: _baseInertia
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641770943328649120, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
+      propertyPath: _baseTopSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641770943328649120, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
+      propertyPath: _sprintTopSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641770943328649120, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
+      propertyPath: _baseAcceleration
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641770943328649120, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
+      propertyPath: _sprintAcceleration
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6522457815145511420, guid: 8f05c025504fa0441974c4cc56f088e6, type: 3}
       propertyPath: m_Name
       value: Player

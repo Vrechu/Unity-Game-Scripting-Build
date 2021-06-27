@@ -4,26 +4,31 @@ using UnityEngine;
 
 public class PickupManager : MonoBehaviour
 {
-    [SerializeField] private float _startingScore = 0;
-    [SerializeField] private float _currentScore;
+    public static PickupManager GetPickupManager()
+    {
+        return PickupManagerSingleton;
+    }
+    static PickupManager PickupManagerSingleton = null;
+
+    [SerializeField] private bool _canSprint = false;
+    public bool CanSprint()
+    {
+        return _canSprint;
+    }
 
     private void Awake()
     {
-        PickupInteract.OnPointsPickup += AddScore;
+        if (PickupManagerSingleton == null) PickupManagerSingleton = this;
+        PickupInteract.OnBootsPickup += PickupBoots;
     }
 
     private void OnDestroy()
     {
-        PickupInteract.OnPointsPickup -= AddScore;
+        PickupInteract.OnBootsPickup -= PickupBoots;
     }
 
-    private void Start()
+    private void PickupBoots()
     {
-        _currentScore = _startingScore;
-    }
-
-    private void AddScore(float scoreToAdd)
-    {
-        _currentScore += scoreToAdd;
+        _canSprint = true;
     }
 }

@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class PickupInteract : MonoBehaviour
 {
-    [SerializeField] private float scoreWorth = 3;
-
-    public static event Action<float> OnPointsPickup;
+    public static event Action OnBootsPickup;
     private Collider objectCollider;
 
     private void Awake()
@@ -32,7 +30,7 @@ public class PickupInteract : MonoBehaviour
     {
         if (interactionCollider == objectCollider)
         {
-        OnPointsPickup?.Invoke(scoreWorth);
+        OnBootsPickup?.Invoke();
             Destroy(gameObject);
         }
     }    
