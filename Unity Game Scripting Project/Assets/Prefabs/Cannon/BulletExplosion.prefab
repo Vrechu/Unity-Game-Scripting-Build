@@ -136,6 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9019353375424067811}
+  - component: {fileID: 20493245931714115}
   m_Layer: 0
   m_Name: BulletExplosion
   m_TagString: Untagged
@@ -159,6 +160,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20493245931714115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769393411385269680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721b1561ce725e64abdaf8bfff6e8fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lifeTime: 1
 --- !u!1 &8838340184327734966
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +213,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8838340184327734966}
   serializedVersion: 7
-  lengthInSec: 0.8
+  lengthInSec: 0.2
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -327,8 +341,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 1
+      scalar: 50
+      minScalar: 40
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -384,8 +398,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 1, b: 0.94520545, a: 1}
-        key1: {r: 0.9528302, g: 0.57019097, b: 0.19326274, a: 1}
+        key0: {r: 1, g: 0, b: 0.015463829, a: 1}
+        key1: {r: 1, g: 0.7971698, b: 0.7971698, a: 1}
         key2: {r: 0.1792453, g: 0.16964643, b: 0.16656284, a: 0}
         key3: {r: 0.1792453, g: 0.16964643, b: 0.16656284, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -393,16 +407,16 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 37779
-        ctime2: 56861
+        ctime1: 41441
+        ctime2: 57054
         ctime3: 63608
         ctime4: 0
         ctime5: 0
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 61680
-        atime2: 65535
+        atime1: 54934
+        atime2: 57632
         atime3: 0
         atime4: 0
         atime5: 0
@@ -1024,7 +1038,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 40
+      scalar: 300
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3969,7 +3983,7 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 0
     light: {fileID: 0}
     randomDistribution: 1

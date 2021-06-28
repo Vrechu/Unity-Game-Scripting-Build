@@ -305,7 +305,7 @@ Transform:
   m_GameObject: {fileID: 6522457815145511420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 0.90951, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1324508924143567753}
   - {fileID: 5209105986915178873}
@@ -436,3 +436,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpSound: {fileID: 8300000, guid: e92844c68d16ef14eb96e0c61886c64d, type: 3}
   _hurtSound: {fileID: 8300000, guid: f873f2b1314aabe4a94da584ad4d1289, type: 3}
+  _pickupSound: {fileID: 8300000, guid: aaf5c919ac8266649b48dc6c55e47911, type: 3}
