@@ -6,6 +6,7 @@ public class PlayerAudio : MonoBehaviour
 {
     [SerializeField] private AudioClip _jumpSound;
     [SerializeField] private AudioClip _hurtSound;
+    [SerializeField] private AudioClip _pickupSound;
 
 
     private AudioSource _audioSource;
@@ -18,12 +19,14 @@ public class PlayerAudio : MonoBehaviour
 
         _jumpPlayer.OnJump += PlayJumpSound;
         BulletImpact.OnPlayerHit += PlayHurtSound;
+        PickupInteract.OnSprintPickup += PlayPickupSound;
     }
 
     private void OnDestroy()
     {
         _jumpPlayer.OnJump -= PlayJumpSound;
         BulletImpact.OnPlayerHit -= PlayHurtSound;
+        PickupInteract.OnSprintPickup -= PlayPickupSound;
     }
 
     private void PlayJumpSound()
@@ -34,5 +37,10 @@ public class PlayerAudio : MonoBehaviour
     private void PlayHurtSound(float damage)
     {
         _audioSource.PlayOneShot(_hurtSound);
+    }
+
+    private void PlayPickupSound()
+    {
+        _audioSource.PlayOneShot(_pickupSound);
     }
 }
