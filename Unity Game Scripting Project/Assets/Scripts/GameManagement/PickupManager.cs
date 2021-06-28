@@ -27,7 +27,7 @@ public class PickupManager : MonoBehaviour
         PickupInteract.OnSprintPickup -= PickupBoots;
     }
 
-    private void PickupBoots()
+    public void PickupBoots()
     {
         _canSprint = true;
     }

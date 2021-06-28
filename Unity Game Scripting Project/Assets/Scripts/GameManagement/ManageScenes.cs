@@ -6,11 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class ManageScenes : MonoBehaviour
 {   
+    public static ManageScenes GetManageScenes()
+    {
+        return ManageScenesSingleton;
+    }
+    static ManageScenes ManageScenesSingleton = null;
+
     public enum SceneType
     {
         INGAME, MENU
     }
-
     private SceneType _sceneType;
     public SceneType GetSceneType()
     {
@@ -26,7 +31,8 @@ public class ManageScenes : MonoBehaviour
     //---------------------- METHODS ------------------------------- 
 
     private void Awake()
-    {        
+    {
+        if (ManageScenesSingleton == null) ManageScenesSingleton = this;
         DoorInteraction.OnDoorInteract += LoadScene;
         ManageHealth.OnPlayerDeath += ToLoseScreen;
         SceneManager.sceneLoaded += OnSceneLoadEvent;
