@@ -18,7 +18,7 @@ public class ManageScenes : MonoBehaviour
     }
 
     [SerializeField] private string _startingSceneName = "SampleScene";
-    [SerializeField] private string _menuSceneName = "MenuScene";
+    [SerializeField] private string _loseSceneName = "LoseScene";
 
     public event Action OnSceneLoad;
     public static event Action OnGameStart;
@@ -28,20 +28,25 @@ public class ManageScenes : MonoBehaviour
     private void Awake()
     {        
         DoorInteraction.OnDoorInteract += LoadScene;
-        ManageHealth.OnPlayerDeath += BackToMenu;
+        ManageHealth.OnPlayerDeath += ToLoseScreen;
         SceneManager.sceneLoaded += OnSceneLoadEvent;
     }
 
     private void OnDestroy()
     {
         DoorInteraction.OnDoorInteract -= LoadScene;
-        ManageHealth.OnPlayerDeath -= BackToMenu;
+        ManageHealth.OnPlayerDeath -= ToLoseScreen;
         SceneManager.sceneLoaded -= OnSceneLoadEvent;
     }
 
     private void Start()
     {
         OnSceneLoad?.Invoke();
+    }
+
+    private void Update()
+    {
+        BackToMenu();
     }
 
     /// <summary>
@@ -63,9 +68,9 @@ public class ManageScenes : MonoBehaviour
         else _sceneType = SceneType.INGAME;
     }
 
-    private void BackToMenu()
+    private void ToLoseScreen()
     {
-        LoadScene(_menuSceneName);
+        LoadScene(_loseSceneName);
     }
 
     private void OnSceneLoadEvent(Scene scene, LoadSceneMode loadMode)
@@ -73,5 +78,18 @@ public class ManageScenes : MonoBehaviour
         CheckSceneType();
         OnSceneLoad?.Invoke();
         Debug.Log("Scene loaded: " + scene.name + " , Type: " + GetSceneType());
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit(); 
+    }
+
+    private void BackToMenu()
+    {
+        if (SceneManager.GetActiveScene().name != "MenuScene" &&  Input.GetAxis("Cancel") == 1)
+        {
+            LoadScene("MenuScene");
+        }
     }
 }
